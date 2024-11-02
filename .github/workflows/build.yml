@@ -27,3 +27,8 @@ jobs:
         run: npm run build
       - name: Lint the project
         run: npm run lint
+
+  image:
+    needs: build
+    uses: ./.github/workflows/image.yml
+    secrets: inherit
