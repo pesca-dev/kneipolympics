@@ -8,6 +8,7 @@ import { useAuth } from "../hooks/useAuth";
 import { Login } from "./login";
 import ErrorPage from "./error";
 import { Main } from "./main";
+import { Register } from "./register";
 
 export function Router() {
   const { loggedIn } = useAuth();
@@ -19,10 +20,16 @@ export function Router() {
   ];
 
   if (!loggedIn) {
-    children.push({
-      path: "/login",
-      element: <Login />,
-    });
+    children.push(
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+    );
   }
 
   const routes: RouteObject[] = [

@@ -6,14 +6,15 @@ import {
   useState,
 } from "react";
 import { useAppwrite } from "../hooks/useAppwrite";
-import { Account, Models } from "appwrite";
+import { Account, AppwriteException, ID, Models } from "appwrite";
 
 export type AuthContextValue = {
   session?: Models.Session;
   user?: Models.User<Models.Preferences>;
   loggedIn: boolean;
-  login(username: string, password: string): Promise<void>;
+  login(email: string, password: string): Promise<void>;
   logout(): Promise<void>;
+  register(email: string, password: string, name: string): Promise<void>;
 };
 
 export const AuthContext = createContext({} as AuthContextValue);
@@ -42,23 +43,21 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
       .catch(() => {});
   }, [account]);
 
-  async function login(username: string, password: string): Promise<void> {
-    try {
-      const session = await account.createEmailPasswordSession(
-        username,
-        password,
-      );
+  async function login(email: string, password: string): Promise<void> {
+    const session = await account.createEmailPasswordSession(email, password);
 
-      account
-        .get()
-        .then((user) => {
-          setSession(session);
-          setUser(user);
-        })
-        .catch(() => account.deleteSession("current"));
-    } catch (e) {
-      console.error(e);
-    }
+    account
+      .get()
+      .then((user) => {
+        if (!user.emailVerification) {
+          throw new AppwriteException(
+            "Please verify your email before logging in!",
+          );
+        }
+        setSession(session);
+        setUser(user);
+      })
+      .catch(() => account.deleteSession("current"));
   }
 
   async function logout(): Promise<void> {
@@ -71,10 +70,19 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
     }
   }
 
+  async function register(
+    email: string,
+    password: string,
+    name: string,
+  ): Promise<void> {
+    await account.create(ID.unique(), email, password, name);
+  }
+
   const value = {
     login,
-    session,
     logout,
+    register,
+    session,
     user,
     loggedIn: !!(session && user),
   };

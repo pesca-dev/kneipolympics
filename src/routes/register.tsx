@@ -1,22 +1,23 @@
-import { FormEvent, useState } from "react";
-import { useAuth } from "../hooks/useAuth";
-import { Alert, Button, Container, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { FormEvent, useState } from "react";
+import { Alert, Button, Container, TextField } from "@mui/material";
 import { AppwriteException } from "appwrite";
 
-export function Login() {
+export function Register() {
   const navigate = useNavigate();
   const auth = useAuth();
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
   const [err, setErr] = useState<string | undefined>();
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
     auth
-      .login(username, password)
+      .register(email, password, name)
       .then(() => {
         navigate("/");
       })
@@ -30,14 +31,22 @@ export function Login() {
 
   return (
     <Container maxWidth="sm">
-      <h2>Login</h2>
+      <h2>Register</h2>
       <form onSubmit={onSubmit}>
         {err && <Alert severity="error">{err}</Alert>}
         <TextField
+          type="text"
+          name="username"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          variant="standard"
+          label="Username"
+        />
+        <TextField
           type="email"
           name="email"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           variant="standard"
           label="EMail"
         />
@@ -49,7 +58,7 @@ export function Login() {
           onChange={(e) => setPassword(e.target.value)}
           variant="standard"
         />
-        <Button type="submit">Login</Button>
+        <Button type="submit">Register</Button>
       </form>
     </Container>
   );
