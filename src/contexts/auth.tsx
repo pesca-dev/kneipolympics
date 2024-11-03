@@ -39,7 +39,7 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
           })
           .catch(() => account.deleteSession("current"));
       })
-      .catch(console.error);
+      .catch(() => {});
   }, [account]);
 
   async function login(username: string, password: string): Promise<void> {
