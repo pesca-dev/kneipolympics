@@ -32,17 +32,18 @@ export function NavBar() {
     <AppBar>
       <Container maxWidth="lg">
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
-            <LocalBar sx={{ mr: 1 }} />
+          <Box sx={{ flexGrow: 1, display: "flex" }}>
             <Typography
               variant="h6"
               noWrap
               component="a"
+              href="/"
               sx={{
                 display: {
                   xs: "none",
                   md: "inline-flex",
                 },
+                alignItems: "center",
                 mr: 2,
                 fontFamily: "monospace",
                 fontWeight: 700,
@@ -51,6 +52,7 @@ export function NavBar() {
                 textDecoration: "none",
               }}
             >
+              <LocalBar sx={{ mr: 1 }} />
               Kneipolympics
             </Typography>
           </Box>
