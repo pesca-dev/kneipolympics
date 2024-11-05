@@ -1,6 +1,7 @@
 import {
   createContext,
   PropsWithChildren,
+  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -28,7 +29,21 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
     Models.User<Models.Preferences> | undefined
   >();
 
+  const verifyUser = useCallback(async () => {
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get("userId");
+    const secret = params.get("secret");
+
+    if (!(userId && secret)) {
+      return;
+    }
+
+    await account.updateVerification(userId, secret).catch(() => {});
+  }, [account]);
+
   useEffect(() => {
+    verifyUser();
+
     account
       .getSession("current")
       .then((session) => {
@@ -41,7 +56,7 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
           .catch(() => account.deleteSession("current"));
       })
       .catch(() => {});
-  }, [account]);
+  }, [account, verifyUser]);
 
   async function login(email: string, password: string): Promise<void> {
     const session = await account.createEmailPasswordSession(email, password);
@@ -76,6 +91,9 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
     name: string,
   ): Promise<void> {
     await account.create(ID.unique(), email, password, name);
+    await account.createEmailPasswordSession(email, password);
+    await account.createVerification(window.location.origin.toString());
+    await account.deleteSession("current");
   }
 
   const value = {

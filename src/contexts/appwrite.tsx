@@ -13,7 +13,9 @@ type Props = PropsWithChildren;
 
 export function AppwriteContextProvider({ children }: Props) {
   const client = new Client();
-  client.setProject("67257b8d001f6f36d0be");
+  client
+    .setEndpoint("https://cloud.appwrite.io/v1")
+    .setProject("67257b8d001f6f36d0be");
 
   const value = {
     client,
