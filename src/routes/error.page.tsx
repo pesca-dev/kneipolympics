@@ -5,7 +5,7 @@ type RouteError = {
   statusText: string;
 };
 
-export default function ErrorPage() {
+export function ErrorPage() {
   const error = useRouteError() as RouteError;
   console.error(error);
 

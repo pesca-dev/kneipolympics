@@ -1,20 +1,20 @@
 import { Container } from "@mui/material";
 import "./App.css";
 
-import { AppwriteContextProvider } from "./contexts/appwrite";
-import { AuthContextProvider } from "./contexts/auth";
 import { Router } from "./routes";
+import { AuthProvider } from "./providers/auth.provider";
+import { AppwriteProvider } from "./providers/appwrite.provider";
 
 export function App() {
   return (
     <>
-      <AppwriteContextProvider>
-        <AuthContextProvider>
+      <AppwriteProvider>
+        <AuthProvider>
           <Container maxWidth="lg">
             <Router />
           </Container>
-        </AuthContextProvider>
-      </AppwriteContextProvider>
+        </AuthProvider>
+      </AppwriteProvider>
     </>
   );
 }
