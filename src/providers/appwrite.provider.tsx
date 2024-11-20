@@ -1,17 +1,10 @@
 import { Client } from "appwrite";
-import { createContext, PropsWithChildren } from "react";
-
-export type AppwriteContextValue = {
-  client: Client;
-};
-
-export const AppwriteContext = createContext<AppwriteContextValue>(
-  {} as AppwriteContextValue,
-);
+import { PropsWithChildren } from "react";
+import { AppwriteContext } from "../contexts/appwrite.context";
 
 type Props = PropsWithChildren;
 
-export function AppwriteContextProvider({ children }: Props) {
+export function AppwriteProvider({ children }: Props) {
   const client = new Client();
   client
     .setEndpoint("https://cloud.appwrite.io/v1")

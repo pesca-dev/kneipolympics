@@ -1,5 +1,4 @@
 import {
-  createContext,
   PropsWithChildren,
   useCallback,
   useEffect,
@@ -8,19 +7,9 @@ import {
 } from "react";
 import { useAppwrite } from "../hooks/useAppwrite";
 import { Account, AppwriteException, ID, Models } from "appwrite";
+import { AuthContext } from "../contexts/auth.context";
 
-export type AuthContextValue = {
-  session?: Models.Session;
-  user?: Models.User<Models.Preferences>;
-  loggedIn: boolean;
-  login(email: string, password: string): Promise<void>;
-  logout(): Promise<void>;
-  register(email: string, password: string, name: string): Promise<void>;
-};
-
-export const AuthContext = createContext({} as AuthContextValue);
-
-export function AuthContextProvider({ children }: PropsWithChildren) {
+export function AuthProvider({ children }: PropsWithChildren) {
   const { client } = useAppwrite();
   const account = useMemo(() => new Account(client), [client]);
 
