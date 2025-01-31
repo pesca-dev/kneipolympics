@@ -18,7 +18,7 @@
     "appwrite": "^16.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.1.1"
+    "react-router-dom": "^7.1.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
