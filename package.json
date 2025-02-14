@@ -15,7 +15,7 @@
     "@fontsource/roboto": "^5.1.1",
     "@mui/icons-material": "^6.4.0",
     "@mui/material": "^6.4.4",
-    "appwrite": "^16.1.0",
+    "appwrite": "^17.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.5"
