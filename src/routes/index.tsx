@@ -3,12 +3,12 @@ import {
   RouteObject,
   RouterProvider,
 } from "react-router-dom";
-import { Root } from "./root";
+import { Root } from "./root.page";
 import { useAuth } from "../hooks/useAuth";
-import { Login } from "./login";
-import ErrorPage from "./error";
-import { Main } from "./main";
-import { Register } from "./register";
+import { Login } from "./login.page";
+import { Main } from "./main.page";
+import { Register } from "./register.page";
+import { ErrorPage } from "./error.page";
 
 export function Router() {
   const { loggedIn } = useAuth();
